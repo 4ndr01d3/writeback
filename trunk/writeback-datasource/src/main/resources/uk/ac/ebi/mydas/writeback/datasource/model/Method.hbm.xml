@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-May-2010 12:32:07 by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+    <class name="uk.ac.ebi.mydas.writeback.datasource.model.Method" table="METHOD">
+        <id name="id" type="java.lang.Long">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="methodId" type="java.lang.String">
+            <column name="METHODID" />
+        </property>
+        <property name="cvId" type="java.lang.String">
+            <column name="CVID" />
+        </property>
+        <property name="label" type="java.lang.String">
+            <column name="LABEL" />
+        </property>
+    </class>
+</hibernate-mapping>

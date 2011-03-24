@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	<!-- Generated 31-May-2010 12:40:21 by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+	<class name="uk.ac.ebi.mydas.writeback.datasource.model.Feature"
+		table="FEATURE">
+		<id name="id" type="java.lang.Long">
+			<column name="ID" />
+			<generator class="native" />
+		</id>
+		<property name="featureId" type="java.lang.String">
+			<column name="FEATUREID" />
+		</property>
+		<property name="label" type="java.lang.String">
+			<column name="LABEL" />
+		</property>
+		<many-to-one name="type"
+			class="uk.ac.ebi.mydas.writeback.datasource.model.Type" fetch="join">
+			<column name="TYPE" />
+		</many-to-one>
+		<many-to-one name="method"
+			class="uk.ac.ebi.mydas.writeback.datasource.model.Method" fetch="join">
+			<column name="METHOD" />
+		</many-to-one>
+		<property name="start" type="java.lang.Integer">
+			<column name="START" />
+		</property>
+		<property name="stop" type="java.lang.Integer">
+			<column name="STOP" />
+		</property>
+		<property name="score" type="java.lang.Double">
+			<column name="SCORE" />
+		</property>
+		<property name="phase" column="PHASE"
+			type="uk.ac.ebi.mydas.writeback.datasource.model.PhaseUserType"
+			not-null="true" update="false" />
+		<property name="orientation" column="ORIENTATION"
+			type="uk.ac.ebi.mydas.writeback.datasource.model.OrientationUserType"
+			not-null="true" update="false" />
+
+		<property name="datecreated" type="java.util.Date">
+			<column name="DATECREATED" />
+		</property>
+		<property name="version" type="java.lang.Integer">
+			<column name="VERSION" />
+		</property>
+		<many-to-one name="users"
+			class="uk.ac.ebi.mydas.writeback.datasource.model.Users" fetch="join">
+			<column name="USERS" />
+		</many-to-one>
+		<set name="notes" table="NOTES" lazy="true">
+			<key column="FEATURE_ID" />
+			<element column="NOTE" type="string" />
+		</set>
+		<map name="links" table="LINKS">
+			<key column="id" />
+			<map-key column="URI" type="string" />
+			<element column="label" type="text" />
+		</map>
+		<set name="parents" table="PARENTS" lazy="true">
+			<key column="FEATURE_ID" />
+			<element column="PARENT" type="string" />
+		</set>
+		<set name="parts" table="PARTS" lazy="true">
+			<key column="FEATURE_ID" />
+			<element column="PART" type="string" />
+		</set>
+		<set name="targets" table="FEATURE_TARGET">
+			<key column="FEATURE_ID" />
+			<many-to-many column="TARGET_ID" class="uk.ac.ebi.mydas.writeback.datasource.model.Target" />
+		</set>
+		<many-to-one name="segment"
+			class="uk.ac.ebi.mydas.writeback.datasource.model.Segment" fetch="join">
+			<column name="SEGMENT" />
+		</many-to-one>
+		<property name="deleted" type="boolean">
+			<column name="DELETED" />
+		</property>
+		<!--
+			<list name="targets" inverse="false" table="TARGET" lazy="true">
+			<key> <column name="ID" /> </key> <list-index></list-index>
+			<one-to-many
+			class="uk.ac.ebi.mydas.writeback.datasource.model.Target" /> </list>
+
+			segment??
+		-->
+	</class>
+</hibernate-mapping>
