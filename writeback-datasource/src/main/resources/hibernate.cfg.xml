@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory name="writeback">
+    <!-- POSTGRES CONFIGURATION -->
+<!--         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.password">xxxxxxx</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost/writeback</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hbm2ddl.auto">create</property>
+        <property name="show_sql">true</property>
+-->
+    <!-- MYSQL CONFIGURATION -->
+<!--         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.password">xxxxxxxx</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost/writeback</property>
+        <property name="hibernate.connection.username">admin</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hbm2ddl.auto">update</property>
+        <property name="show_sql">true</property>
+-->
+    <!-- DERBY CONFIGURATION -->
+  		<property name="hibernate.connection.driver_class">org.apache.derby.jdbc.EmbeddedDriver</property>
+		<property name="hibernate.connection.url">jdbc:derby:;databaseName=writeback;create=true</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password"></property>
+		<property name="hibernate.dialect">org.hibernate.dialect.DerbyDialect</property>
+        <property name="hbm2ddl.auto">create</property>
+        <property name="show_sql">true</property>
+
+        <mapping resource="uk/ac/ebi/mydas/writeback/datasource/model/Type.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/mydas/writeback/datasource/model/Method.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/mydas/writeback/datasource/model/Target.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/mydas/writeback/datasource/model/Users.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/mydas/writeback/datasource/model/Feature.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/mydas/writeback/datasource/model/Segment.hbm.xml"/>
+
+        
+
+        
+    </session-factory>
+</hibernate-configuration>

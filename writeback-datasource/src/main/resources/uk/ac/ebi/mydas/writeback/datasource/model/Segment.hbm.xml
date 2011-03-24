@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-May-2010 12:40:21 by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+    <class name="uk.ac.ebi.mydas.writeback.datasource.model.Segment" table="SEGMENT">
+        <id name="id" type="java.lang.Long">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="idSegment" type="java.lang.String">
+            <column name="IDSEGMENT" />
+        </property>
+        <property name="start" type="java.lang.Integer">
+            <column name="START" />
+        </property>
+        <property name="stop" type="java.lang.Integer">
+            <column name="STOP" />
+        </property>
+        <property name="version" type="java.lang.String">
+            <column name="VERSION" />
+        </property>
+        <property name="label" type="java.lang.String">
+            <column name="LABEL" />
+        </property>
+		<set name="features" table="SEGMENT_FEATURE">
+			<key column="SEGMENT_ID" />
+			<many-to-many column="FEATURE_ID" class="uk.ac.ebi.mydas.writeback.datasource.model.Feature" />
+		</set>
+    </class>
+</hibernate-mapping>

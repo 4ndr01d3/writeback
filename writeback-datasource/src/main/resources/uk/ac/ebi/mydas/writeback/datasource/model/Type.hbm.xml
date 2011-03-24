@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 31-May-2010 12:32:07 by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+    <class name="uk.ac.ebi.mydas.writeback.datasource.model.Type" table="TYPE">
+        <id name="id" type="java.lang.Long">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="typeId" type="java.lang.String">
+            <column name="TYPEID" />
+        </property>
+        <property name="category" type="java.lang.String">
+            <column name="CATEGORY" />
+        </property>
+        <property name="cvId" type="java.lang.String">
+            <column name="CVID" />
+        </property>
+        <property name="reference" type="boolean">
+            <column name="REFERENCE" />
+        </property>
+        <property name="subparts" type="boolean">
+            <column name="SUBPARTS" />
+        </property>
+        <property name="superparts" type="boolean">
+            <column name="SUPERPARTS" />
+        </property>
+        <property name="label" type="java.lang.String">
+            <column name="LABEL" />
+        </property>
+    </class>
+</hibernate-mapping>

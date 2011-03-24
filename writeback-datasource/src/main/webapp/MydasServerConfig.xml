@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2007 Philip Jones, EMBL-European Bioinformatics Institute
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~
+  ~ For further details of the mydas project, including source code,
+  ~ downloads and documentation, please see:
+  ~
+  ~ http://code.google.com/p/mydas/
+  ~
+  -->
+
+<mydasserver xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="http://mydas.googlecode.com/svn/trunk/mydas/server_core/src/main/resources/mydasserverconfig.xsd">
+    <!-- The global element holds details of configuration common to the entire server. -->
+    <global>
+
+        <!-- The URL of the DAS server up to and including /das/ (e.g. http://www.ebi.ac.uk/das-srv/uniprot/das/)
+        This should be the external URL.  (Allows correct access to the service through reverse-proxies etc.)-->
+        <baseurl>http://localhost:8080/das/</baseurl>
+
+        <!-- A boolean switch indicating if the output from the DAS server should be compressed or not. -->
+        <gzipped>false</gzipped>
+
+        <!-- If set to true, then if the browser points to /das or /das/ then
+            the output of the dsn command should be displayed.  This is
+            useful for creating a home page based upon the data source
+            details.-->
+        <slash-das-points-to-dsn>true</slash-das-points-to-dsn>
+
+        <!-- The name of the default DAS stylesheet to be used for all of the defined datasources.
+        This can be overridden for individual datasources by including a stylesheet element for them. -->
+        <!--<default-stylesheet>TEST.style</default-stylesheet>-->
+
+        <!-- Gives the URI of an XSLT transformation that can be used by the browser
+            to present the dsn command response in a human-readable format.
+            Optional - the processing instruction will only be included if this
+            element is present. -->
+        <dsn-xslt-url>xslt/dsn.xsl</dsn-xslt-url>
+
+        <!-- NOTE - THE XSLTs LISTED BELOW (COMMENTED OUT) ARE UNDER DEVELOPMENT, SO NOT
+        CURRENTLY AVAILABLE.-->
+
+        <!-- Gives the URI of an XSLT transformation that can be used by the browser
+            to present the dna command response in a human-readable format.
+            Optional - the processing instruction will only be included if this
+            element is present. -->
+        <!--<dna-xslt-url>/xslt/dna.xsl</dna-xslt-url>-->
+
+        <!-- Gives the URI of an XSLT transformation that can be used by the browser
+            to present the entry-points command response in a human-readable format.
+            Optional - the processing instruction will only be included if this
+            element is present.-->
+        <!--<entry-points-xslt-url>/xslt/entry-point.xsl</entry-points-xslt-url>-->
+
+        <!-- Gives the URI of an XSLT transformation that can be used by the browser
+          to present the sequence command response in a human-readable format.
+          Optional - the processing instruction will only be included if this
+          element is present. -->
+        <!--<sequence-xslt-url>/xslt/sequence.xsl</sequence-xslt-url>-->
+
+        <!-- Gives the URI of an XSLT transformation that can be used by the browser
+            to present the features command response in a human-readable format.
+            Optional - the processing instruction will only be included if this
+            element is present. -->
+        <features-xslt-url>xslt/features.xsl</features-xslt-url>
+
+        <!-- Gives the URI of an XSLT transformation that can be used by the browser
+            to present the types command response in a human-readable format.
+            Optional - the processing instruction will only be included if this
+            element is present. -->
+        <types-xslt-url>xslt/types.xsl</types-xslt-url>
+
+        <!-- These global properties are made available to all the plugin classes
+        through the DataSource interface, so the plugin author can
+        add arbitrary additional configuration to their data source. -->
+    </global>
+    <!-- The enclosing element for one or more datasource definitions. -->
+    <datasources>
+         <datasource uri="writeback"
+                    title="writeback"
+                    description="Writeback Data Source"
+                    doc_href="http://writeback.com"
+                    mapmaster="http://mapmaster_template.com">
+            <!-- The fully qualified class name of the DataSource. -->
+			
+			<maintainer email="writeback@ebi.ac.uk" />
+			<version uri="writeback" created="2010-08-19">
+	            <class>uk.ac.ebi.mydas.writeback.datasource.Writeback</class>
+				<coordinates 	uri="http://www.ebi.ac.uk/das-srv/uniprot/das/aristotle"
+								source="Protein Sequence"
+								authority="UniProt"
+								test_range="P00280">UniProt,Protein Sequence</coordinates>
+		        <capability type="das1:writeback"		query_uri="http://www.ebi.ac.uk/das-srv/uniprot/das/uniprot/writeback" />
+			</version>
+
+            <dna-command-enabled>true</dna-command-enabled>
+            <use-feature-id-for-feature-label>true</use-feature-id-for-feature-label>
+            <include-types-with-zero-count>true</include-types-with-zero-count>
+        </datasource>
+    </datasources>
+</mydasserver>
+
