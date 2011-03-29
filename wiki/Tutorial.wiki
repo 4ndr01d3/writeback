@@ -1,4 +1,5 @@
 #summary Tutorial using the sample writeback client
+#labels Featured,Phase-Support,Tutorial
 
 = Introduction =
 The goal of this tutorial is to allow you to install a writeback data source into your tomcat environment, and to use the sample client.
