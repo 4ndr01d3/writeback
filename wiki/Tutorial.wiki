@@ -1,0 +1,21 @@
+#summary Tutorial using the sample writeback client
+
+= Introduction =
+The goal of this tutorial is to allow you to install a writeback data source into your tomcat environment, and to use the sample client.
+
+
+= Getting to run the Data Source =
+
+= The writeback components =
+
+== Create a user ==
+
+== Create a Feature ==
+
+== Edit a feature ==
+
+== Getting a segment ==
+
+== Deleting a Feature ==
+
+== Getting the history of a feature ==
