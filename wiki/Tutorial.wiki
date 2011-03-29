@@ -15,8 +15,8 @@ You have to copy the WAR file into the webapps folder, and restart tomcat. Alter
 As we are using the version 1.6.5 of the data source all the following links will contain that version, you might want to change this version number for the one you are using.
 
 You can now test Mydas is running by visiting [http://localhost:8080/writeback-datasource-1.6.5/das]
-The response document should be the active sources in the MyDas installation, which in this case should be only the writeback.
-<code>
+The response document should be the active sources in the MyDas installation, which in this case should be only the writeback. It should look similar to:
+{{{
 <?xml version="1.0" standalone="no"?>
  <SOURCES>
   <SOURCE uri="writeback" doc_href="http://writeback.com" title="writeback" description="Writeback Data Source">
@@ -27,9 +27,14 @@ The response document should be the active sources in the MyDas installation, wh
    </VERSION>
   </SOURCE>
  </SOURCES>
-</code>
+}}}
 
 = The writeback components =
+Since version 1.6.5 the writeback data source includes a demo client to interact with the server. The only purpose of such a client is for documenting by example and it does not pretend to be a full interface for the system. 
+
+The next part of this tutorial is based in the mentioned client. The demo can be found in [http://localhost:8080/writeback-datasource-1.6.5/]. The client is implemented in javascript and uses Jquery to do the Ajax calls. As client and server are here running in the same machine it is possible to execute Ajax calls without any proxy.
+
+The writeback some unusual the HTTP methods (PUT and DELETE), HTML does not support this methods, however javascript does, here we will show how to use this client and how it was implemented.
 
 == Create a user ==
 
