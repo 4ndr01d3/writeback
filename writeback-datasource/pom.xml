@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>uk.ac.ebi.mydas</groupId>
 	<artifactId>writeback-datasource</artifactId>
-	<version>1.6.4</version>
+	<version>1.6.5</version>
 	<packaging>war</packaging>
 	<name>Writeback data source implementation</name>
 	<build>
-		<finalName>mydas</finalName>
+		<finalName>writeback-datasource</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -26,8 +26,23 @@
                 </configuration>
             </plugin>
 		</plugins>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav</artifactId>
+				<version>1.0-beta-2</version>
+			</extension>
+		</extensions>
 
 	</build>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
 	<repositories>
         <repository>
@@ -159,4 +174,21 @@
         </dependency>
 
 	</dependencies>
+
+	<scm>
+		<url>http://writeback.googlecode.com/svn/</url>
+		<connection>http://writeback.googlecode.com/svn/</connection>
+	</scm>
+	<distributionManagement>
+		<repository>
+			<id>googlecode.writeback.repo</id>
+			<url>dav:https://writeback.googlecode.com/svn/repository/</url>
+		</repository>
+		<snapshotRepository>
+			<id>googlecode.writeback.snapshotrepo</id>
+			<url>dav:https://writeback.googlecode.com/svn/snapshot-repository/</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
+
 </project>
