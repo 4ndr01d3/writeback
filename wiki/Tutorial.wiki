@@ -16,6 +16,19 @@ As we are using the version 1.6.5 of the data source all the following links wil
 
 You can now test Mydas is running by visiting [http://localhost:8080/writeback-datasource-1.6.5/das]
 The response document should be the active sources in the MyDas installation, which in this case should be only the writeback.
+<code>
+<?xml version="1.0" standalone="no"?>
+<SOURCES>
+  <SOURCE uri="writeback" doc_href="http://writeback.com" title="writeback" description="Writeback Data Source">
+    <MAINTAINER email="writeback@ebi.ac.uk" />
+    <VERSION uri="writeback" created="2010-08-19">
+      <COORDINATES uri="http://www.ebi.ac.uk/das-srv/uniprot/das/aristotle" source="Protein Sequence" authority="UniProt" test_range="P00280">UniProt,Protein Sequence</COORDINATES>
+      <CAPABILITY type="das1:writeback" query_uri="http://www.ebi.ac.uk/das-srv/uniprot/das/uniprot/writeback" />
+    </VERSION>
+  </SOURCE>
+
+</SOURCES>
+</code>
 
 = The writeback components =
 
