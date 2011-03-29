@@ -14,7 +14,8 @@ You have to copy the WAR file into the webapps folder, and restart tomcat. Alter
 
 As we are using the version 1.6.5 of the data source all the following links will contain that version, you might want to change this version number for the one you are using.
 
-You can now test Mydas is running 
+You can now test Mydas is running by visiting [http://localhost:8080/writeback-datasource-1.6.5/das]
+The response document should be the active sources in the MyDas installation, which in this case should be only the writeback.
 
 = The writeback components =
 
