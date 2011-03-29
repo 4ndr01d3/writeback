@@ -570,9 +570,9 @@ public class WritebackDataSourceTestCase extends TestCase {
 		assertLocalContains(resp,"<?xml version=\"1.0\" standalone=\"no\"?>");
 		assertLocalContains(resp,"<DASEP>");
 		assertLocalContains(resp,"<ENTRY_POINTS href=\"http://localhost:8080/das/writeback/entry_points\" version=\"Version 1.1\" total=\"3\" start=\"1\" end=\"3\">");
-		assertLocalContains(resp,"<SEGMENT id=\"one\" start=\"1\" stop=\"34\" version=\"Up-to-date\" type=\"Protein Sequence\" orientation=\"+\">UniProt,Protein Sequence</SEGMENT>");
-		assertLocalContains(resp,"<SEGMENT id=\"two\" start=\"1\" stop=\"340\" version=\"Up-to-date\" type=\"Protein Sequence\" orientation=\"+\">UniProt,Protein Sequence</SEGMENT>");
-		assertLocalContains(resp,"<SEGMENT id=\"three\" start=\"0\" stop=\"0\" version=\"FROM_DELETION\" type=\"Protein Sequence\" orientation=\"+\">UniProt,Protein Sequence</SEGMENT>");
+		assertLocalContains(resp,"<SEGMENT id=\"one\" start=\"1\" stop=\"34\" version=\"Up-to-date\" type=\"Protein Sequence\">UniProt,Protein Sequence</SEGMENT>");
+		assertLocalContains(resp,"<SEGMENT id=\"two\" start=\"1\" stop=\"340\" version=\"Up-to-date\" type=\"Protein Sequence\">UniProt,Protein Sequence</SEGMENT>");
+		assertLocalContains(resp,"<SEGMENT id=\"three\" start=\"0\" stop=\"0\" version=\"FROM_DELETION\" type=\"Protein Sequence\">UniProt,Protein Sequence</SEGMENT>");
 		assertLocalContains(resp,"</ENTRY_POINTS>");
 		assertLocalContains(resp,"</DASEP>");
 	}

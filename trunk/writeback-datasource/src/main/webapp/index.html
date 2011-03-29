@@ -1,0 +1,181 @@
+<!DOCTYPE html> 
+
+<html>
+	<head>
+		<title>DAS Writeback - Demo Page</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript"></script>
+		<link href="style.css" rel="stylesheet" type="text/css" />
+		<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+		<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+		<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+		<script>
+	function createUser(){
+		$('#result_cu').html("");
+		var user = $("#user").val();
+		var pass = $("#password").val();
+		$.ajax({
+			type: "GET",
+			url: "das/writeback/createuser",
+			data: "user="+user+"&password="+pass,
+			success: function(msg){
+				$('#result_cu').html("User created");
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				$('#result_cu').html("ERROR: "+errorThrown);
+			}
+		});
+	}
+	function create(){
+		var content = encodeURI($("#featureXMLadd").val());
+		$.ajax({
+			type: "POST",
+			url: "das/writeback",
+			dataType: 'text',
+			data: "_content="+content,
+			success: function(msg){
+				var xml = msg.replace(/</g,"&lt;");
+				$('#result_au').html("<pre class='brush: xml'>"+xml+"</pre>");
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				$('#result_au').html("ERROR: "+errorThrown);
+			}
+		});
+	}
+	function update(){
+		var content = $("#featureXMLadd").val();
+		$.ajax({
+			type: "PUT",
+			url: "das/writeback",
+			dataType: 'text',
+			data: content,
+			contentType: "application/xml",
+			success: function(msg){
+//				$('#result_au').text(msg);
+				var xml = msg.replace(/</g,"&lt;");
+				$('#result_au').html("<pre class='brush: xml'>"+xml+"</pre>");
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				$('#result_au').html("ERROR: "+errorThrown);
+			}
+		});
+	}
+	function displaySegment(){
+		$('#result_gs').html("");
+		var seg = $("#segment").val();
+		$.ajax({
+			type: "GET",
+			url: "das/writeback/features",
+			dataType: 'text',
+			data: "segment="+seg,
+			success: function(msg){
+				var xml = msg.replace(/</g,"&lt;");
+				$('#result_gs').html("<pre class='brush: xml'>"+xml+"</pre>");
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				$('#result_gs').html("ERROR: "+errorThrown);
+			}
+		});
+	}
+	function deleteFeature(){
+		$('#result_df').html("");
+		var user = $("#user_d").val();
+		var pass = $("#password_d").val();
+		var feature = $("#feature_to_del").val();
+		var segment = $("#segment_to_del").val();
+		var href = $("#href_to_del").val();
+		$.ajax({
+			type: "DELETE",
+			url: "das/writeback?segmentid="+segment+"&featureid="+feature+"&user="+user+"&password="+pass+"&href="+href,
+			dataType: 'text',
+			success: function(msg){
+				var xml = msg.replace(/</g,"&lt;");
+				$('#result_df').html("<pre class='brush: xml'>"+xml+"</pre>");
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				$('#result_df').html("ERROR: "+errorThrown);
+			}
+		});
+	}
+	function displayHistory(){
+		$('#result_hs').html("");
+		var feat = $("#feature_h").val();
+		$.ajax({
+			type: "GET",
+			url: "das/writeback/historical",
+			dataType: 'text',
+			data: "feature="+feat,
+			success: function(msg){
+				var xml = msg.replace(/</g,"&lt;");
+				$('#result_hs').html("<pre class='brush: xml'>"+xml+"</pre>");
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				$('#result_hs').html("ERROR: "+errorThrown);
+			}
+		});
+	}
+		</script>
+	</head>
+	<body>
+		<img alt="Logo" src="http://code.google.com/p/writeback/logo?cct=1300892480"/>
+		<h1>DAS Writeback - Demo Page</h1>
+		<section id="creating_user">
+			<h2>Adding a user</h2>
+			<p>Create a user:</p>
+			<table>
+				<tr><td>User:</td><td><input type="text" id="user" /></td></tr>
+				<tr><td>Password:</td><td><input type="password" id="password" /></td></tr>
+				<tr>
+					<td colspan="2"><input type="button" onclick="createUser();" value="CREATE-USER"/></td>
+				</tr>
+				<tr>
+					<td colspan="2"><div id="result_cu"></div></td>
+				</tr>
+			</table>
+		</section>
+		<section id="adding">
+			<h2>Adding/Updating a Feature</h2>
+			<p>Put your DASGFF XML here:</p>
+			<textarea rows="10" cols="50" id="featureXMLadd"></textarea>
+			<p>
+				<input type="button" onclick="create();" value="ADD-FEATURE"/>
+				<input type="button" onclick="update();" value="UPDATE-FEATURE"/>
+			</p>
+			<p><div id="result_au"></div></p>
+		</section>
+		<section id="getting">
+			<h2>Getting Features By Segment</h2>
+			<p>Segment ID:</p>
+			<input type="text" id="segment" />
+			<p>
+				<input type="button" onclick="displaySegment()" value="GET-SEGMENT" />
+			</p>
+			<p><div id="result_gs"></div></p>
+		</section>
+		<section id="deleting">
+			<h2>Deleting a Feature</h2>
+			<table>
+				<tr><td>Feature ID:</td><td><input type="text" id="feature_to_del" /></td></tr>
+				<tr><td>Segment ID:</td><td><input type="text" id="segment_to_del" /></td></tr>
+				<tr><td>Original server URL:</td><td><input type="text" id="href_to_del" /></td></tr>
+				<tr><td>User:</td><td><input type="text" id="user_d" /></td></tr>
+				<tr><td>Password:</td><td><input type="password" id="password_d" /></td></tr>
+				<tr>
+					<td colspan="2"><input type="button" onclick="deleteFeature()" value="DELETE FEATURE"/></td>
+				</tr>
+				<tr>
+					<td colspan="2"><div id="result_df"></div></td>
+				</tr>
+			</table>
+		</section>
+		<section id="history">
+			<h2>Getting the history of a Feature</h2>
+			<p>Feature ID:</p>
+			<input type="text" id="feature_h" />
+			<p>
+				<input type="button" onclick="displayHistory()" value="GET-HISTORY" />
+			</p>
+			<p><div id="result_hs"></div></p>
+		</section>
+		
+	</body>
+</html>
