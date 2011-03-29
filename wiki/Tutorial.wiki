@@ -6,6 +6,15 @@ The goal of this tutorial is to allow you to install a writeback data source int
 
 
 = Getting to run the Data Source =
+There are several ways to obtain the data source. Probably the easiest way is to get the [http://code.google.com/p/writeback/downloads/detail?name=writeback-datasource-1.6.5.war WAR file], but you can also get the source from our [https://writeback.googlecode.com/svn SVN].
+
+We will assume you are using the WAR file and you are using a [http://tomcat.apache.org/ Tomcat] server installed in your local machine in the port 8080.
+
+You have to copy the WAR file into the webapps folder, and restart tomcat. Alternatively you can use the Tomcat manager to deploy the war file and to start the application.
+
+As we are using the version 1.6.5 of the data source all the following links will contain that version, you might want to change this version number for the one you are using.
+
+You can now test Mydas is running 
 
 = The writeback components =
 
