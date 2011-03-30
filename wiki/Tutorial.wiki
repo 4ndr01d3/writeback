@@ -211,7 +211,7 @@ For the writeback server an update request means that the feature already exists
  </GFF>
 </DASGFF>
 }}}
-The response still containing 2 features, because the last update created another version of a feature that is already in the server.
+The response still containing 2 features, because the last update created another version of a feature that is already in the server. You can notice that now the version is `<NOTE>VERSION=2</NOTE>` and the `START` and `END` elements are now 150 and 200.
 {{{
 <?xml version="1.0" standalone="no"?>
 <?xml-stylesheet href="xslt/features.xsl" type="text/xsl"?>
