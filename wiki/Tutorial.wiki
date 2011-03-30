@@ -84,7 +84,81 @@ function createUser(){
 This function captures the values of the form, and makes an ajax call. In case of success, the `<div>` under the button is filled with the "User created" message, and with an error message in any other case.
 
 == Create a Feature ==
+Now into the core of the writeback we can create a feature for an specific segment by sending via POST a DAS GFF document. So, in the section `Adding/Updating a Feature` of the sample application ([http://localhost:8080/writeback-datasource-1.6.5/]) you can input the next XML document in the text area:
+{{{
+<?xml version="1.0" standalone="no"?>
+<DASGFF>
+ <GFF>
+  <SEGMENT id="P05067" start="1" stop="770" version="7dd43312cd29a262acdc0517230bc5ca" label="Amyloid beta A4 protein" >
+   <FEATURE id="new" label="testAnnotation" >
+    <TYPE id="SO:0001072" cvId="SO:0001072" >extramembrane_polypeptide_region</TYPE>
+    <METHOD id="ECO:0000053" cvId="ECO:0000053" >computational combinatorial analysis</METHOD>
+    <START>50</START>
+    <END>100</END>
+    <NOTE>Test annotation</NOTE>
+    <NOTE>USER=tester</NOTE><NOTE>PASSWORD=tester</NOTE>
+   </FEATURE>
+  </SEGMENT>
+ </GFF>
+</DASGFF>
+}}}
+By clicking the `ADD-FEATURE` button the XML is submitted via POST and the writeback data source, is saving it as a new feature. The response of the writeback source is displayed under the button:
+{{{
+<?xml version="1.0" standalone="no"?>
+<?xml-stylesheet href="xslt/features.xsl" type="text/xsl"?>
+<DASGFF>
+  <GFF href="http://localhost:8080/das/writeback">
+    <SEGMENT id="P05067" start="1" stop="770" version="7dd43312cd29a262acdc0517230bc5ca" label="Amyloid beta A4 protein">
+      <FEATURE id="http://writeback/0" label="testAnnotation">
+        <TYPE id="SO:0001072" cvId="SO:0001072">extramembrane_polypeptide_region</TYPE>
+        <METHOD id="ECO:0000053" cvId="ECO:0000053">computational combinatorial analysis</METHOD>
+        <START>50</START>
+        <END>100</END>
+        <NOTE>Test annotation</NOTE>
+        <NOTE>USER=tester</NOTE>
+        <NOTE>DATE=2011-03-30 11:42:56.325</NOTE>
+        <NOTE>VERSION=1</NOTE>
+      </FEATURE>
+    </SEGMENT>
+  </GFF>
+</DASGFF>
+}}}
+Note that now the id of the feature is `http://writeback/0` and there is a note showing the version of this annotation: `<NOTE>USER=tester</NOTE>`.
 
+The HTML form to capture the XML is:
+{{{
+<section id="adding">
+	<h2>Adding/Updating a Feature</h2>
+	<p>Put your DASGFF XML here:</p>
+	<textarea rows="10" cols="50" id="featureXMLadd"></textarea>
+	<p>
+		<input type="button" onclick="create();" value="ADD-FEATURE"/>
+		<input type="button" onclick="update();" value="UPDATE-FEATURE"/>
+	</p>
+	<p><div id="result_au"></div></p>
+</section>
+}}}
+A click in the `ADD-FEATURE` button triggers the function `create()`:
+{{{
+function create(){
+	var content = encodeURI($("#featureXMLadd").val());
+	$.ajax({
+		type: "POST",
+		url: "das/writeback",
+		dataType: 'text',
+		data: "_content="+content,
+		success: function(msg){
+			var xml = msg.replace(/</g,"&lt;");
+			$('#result_au').html("<pre class='brush: xml'>"+xml+"</pre>");
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			$('#result_au').html("ERROR: "+errorThrown);
+		}
+	});
+}
+}}}
+This function executes an ajax call, but this time it uses POST, which indicates to the writeback server that this feature has to be created. The XML is been encoded for the communication with the javascript function `encodeURI()` and is sent as the value of a parameter called `_content`. 
+The success function just replaces all the `<` characters for its HTML code `&lt` for displaying options and then put that as the content of the `<div>` under the button.
 == Edit a feature ==
 
 == Getting a segment ==
