@@ -37,6 +37,51 @@ The next part of this tutorial is based in the mentioned client. The demo can be
 The writeback some unusual the HTTP methods (PUT and DELETE), HTML does not support this methods, however javascript does, here we will show how to use this client and how it was implemented.
 
 == Create a user ==
+Users are part of the writeback, for identification purposes but it does not have any authorization consequences, at least not yet, at least not in the communitarian version of the writeback.
+Because of that, the module for creation and authentication is as simple as possible. It just has two fields: `login` and `password`. It is in the plan to improve this, once a authentication/authorization is defined for DAS.
+
+Now go to the sample application ([http://localhost:8080/writeback-datasource-1.6.5/]) and in the 'Adding a user' section, fill the form with 'tester' in both `login` and `password`, and then click to the button `CREATE-USER`. And if everything is working well a 'User created' message should appears under the button.
+
+In its current state, a user can be created by executing the command `createuser` of the data source via GET method. It should contains the 2 parameters `user` and `password`. An empty response with HTTP code equal to 200 OK indicates that the user was created. Any other HTTP code should be interpreted as an error, that could it be caused by using an existing user name or for communication problems.
+ 
+In the sample application we have a form to capture the parameters:
+{{{
+		<section id="creating_user">
+			<h2>Adding a user</h2>
+			<p>Create a user:</p>
+			<table>
+				<tr><td>User:</td><td><input type="text" id="user" /></td></tr>
+				<tr><td>Password:</td><td><input type="password" id="password" /></td></tr>
+				<tr>
+					<td colspan="2"><input type="button" onclick="createUser();" value="CREATE-USER"/></td>
+				</tr>
+				<tr>
+					<td colspan="2"><div id="result_cu"></div></td>
+				</tr>
+			</table>
+		</section>
+}}}
+
+When the `CREATE-USER` is pressed the javascript method `createUser()` is triggered:
+{{{
+	function createUser(){
+		$('#result_cu').html("");
+		var user = $("#user").val();
+		var pass = $("#password").val();
+		$.ajax({
+			type: "GET",
+			url: "das/writeback/createuser",
+			data: "user="+user+"&password="+pass,
+			success: function(msg){
+				$('#result_cu').html("User created");
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				$('#result_cu').html("ERROR: "+errorThrown);
+			}
+		});
+	}
+}}}
+This function captures the values of the form, and makes an ajax call. In case of success, the div under the button is filled with the "User created" message, and with an error message in any other case.
 
 == Create a Feature ==
 
