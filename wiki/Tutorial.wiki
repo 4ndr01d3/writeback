@@ -474,3 +474,8 @@ function displayHistory(){
 	});
 }
 }}}
+
+==Conclusions==
+If you have reach this point you have went through all the concepts of a Data Source that implements the writeback capability. This demo app is using Derby for persistent storage, but you can easily configure it to use PostgreSQL or MySQL because it uses Hibernate.
+
+This implementation of the writeback has been though for open collaborative environments, for more specific uses of the writeback concept, you can get the source code from the SVN and adapt it to your requirements.
