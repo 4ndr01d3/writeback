@@ -277,7 +277,7 @@ You can try to request a segment that haven't been registered in the writeback, 
     <UNKNOWNSEGMENT id="not_in_wb" />
   </GFF>
 </DASGFF>
-
+}}}
 The HTML form for this section is quite simple:
 {{{
 <section id="getting">
@@ -313,5 +313,90 @@ function displaySegment(){
 Nothing interesting in this method that we haven't mention in the previous ones.
 
 == Deleting a Feature ==
+Now in this section you will be able to tag a feature as `DELETED`, the writeback is not going to really delete a feature, non the writeback annotations and neither the other servers annotations. What the writeback does is to create a new version of the feature that is marked as deleted, so a client will know that a feature has been "deleted" and it can display it in an appropriate way.
+
+In the demo application you can fill the form with the information of the feature that we have edited twice in this tutorial: 
+ * Feature id: http://writeback/new
+ * Segment id: P05067
+ * Original server URL: http://writeback
+ * User: tester
+ * Password: tester
+
+And the response after pressing the `DELETE FEATURE` button should be:
+{{{
+<?xml version="1.0" standalone="no"?>
+<?xml-stylesheet href="xslt/features.xsl" type="text/xsl"?>
+<DASGFF>
+  <GFF href="http://localhost:8080/das/writeback?segmentid=P05067&featureid=http://writeback/new&user=tester&password=tester&href=http://writeback">
+    <SEGMENT id="P05067" start="1" stop="770" version="7dd43312cd29a262acdc0517230bc5ca" label="Amyloid beta A4 protein">
+      <FEATURE id="http://writeback/0" label="testAnnotation">
+        <TYPE id="SO:0001072" cvId="SO:0001072">extramembrane_polypeptide_region</TYPE>
+        <METHOD id="ECO:0000053" cvId="ECO:0000053">computational combinatorial analysis</METHOD>
+        <START>50</START>
+        <END>100</END>
+        <NOTE>Test annotation</NOTE>
+        <NOTE>USER=tester</NOTE>
+        <NOTE>DATE=2011-03-30 11:42:56.325</NOTE>
+        <NOTE>VERSION=1</NOTE>
+      </FEATURE>
+      <FEATURE id="http://writeback/new" label="DELETED">
+        <TYPE id="DELETED" />
+        <METHOD id="DELETED" />
+        <SCORE>0.0</SCORE>
+        <NOTE>USER=tester</NOTE>
+        <NOTE>DATE=2011-03-30 15:00:54.623</NOTE>
+        <NOTE>VERSION=3</NOTE>
+      </FEATURE>
+    </SEGMENT>
+  </GFF>
+</DASGFF>
+}}}
+
+Note that now this feature is in its version number 3 and the value of the parameter `label` for the element `FEATURE` is `DELETED`. The id of the elements `TYPE` and `METHOD` is also `DELETED`.
+
+The HTML form for this section is:
+
+{{{
+<section id="deleting">
+	<h2>Deleting a Feature</h2>
+	<table>
+		<tr><td>Feature ID:</td><td><input type="text" id="feature_to_del" /></td></tr>
+		<tr><td>Segment ID:</td><td><input type="text" id="segment_to_del" /></td></tr>
+		<tr><td>Original server URL:</td><td><input type="text" id="href_to_del" /></td></tr>
+		<tr><td>User:</td><td><input type="text" id="user_d" /></td></tr>
+		<tr><td>Password:</td><td><input type="password" id="password_d" /></td></tr>
+		<tr>
+			<td colspan="2"><input type="button" onclick="deleteFeature()" value="DELETE FEATURE"/></td>
+		</tr>
+		<tr>
+			<td colspan="2"><div id="result_df"></div></td>
+		</tr>
+	</table>
+</section>
+}}}
+And the method executed is:
+{{{
+function deleteFeature(){
+	$('#result_df').html("");
+	var user = $("#user_d").val();
+	var pass = $("#password_d").val();
+	var feature = $("#feature_to_del").val();
+	var segment = $("#segment_to_del").val();
+	var href = $("#href_to_del").val();
+	$.ajax({
+		type: "DELETE",
+		url: "das/writeback?segmentid="+segment+"&featureid="+feature+"&user="+user+"&password="+pass+"&href="+href,
+		dataType: 'text',
+		success: function(msg){
+			var xml = msg.replace(/</g,"&lt;");
+			$('#result_df').html("<pre class='brush: xml'>"+xml+"</pre>");
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			$('#result_df').html("ERROR: "+errorThrown);
+		}
+	});
+}
+}}} 
+Here the HTTP method is `DELETE` and the parameters are passed in the url. As usual the response is displayed in the `<div>` under the button.
 
 == Getting the history of a feature ==
