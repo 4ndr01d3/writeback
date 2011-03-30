@@ -243,6 +243,28 @@ The response still containing 2 features, because the last update created anothe
 </DASGFF>
 }}}
 
+The HTML form for the editing is the same that for the creation, however the `UPDATE-FEATURE` button is now triggering the method `update()`:
+{{{
+function update(){
+	var content = $("#featureXMLadd").val();
+	$.ajax({
+		type: "PUT",
+		url: "das/writeback",
+		dataType: 'text',
+		data: content,
+		contentType: "application/xml",
+		success: function(msg){
+			var xml = msg.replace(/</g,"&lt;");
+			$('#result_au').html("<pre class='brush: xml'>"+xml+"</pre>");
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			$('#result_au').html("ERROR: "+errorThrown);
+		}
+	});
+}
+}}}
+Is important to highlight that this function is using the HTTP method PUT, and therefore the XML is the content of the request and is not wrapped in the traditional `parameter=value` way; that makes necessary to include the contentType of such content which here is `application/xml`. Besides that the method is similar to `create()`.
+
 == Getting a segment ==
 
 == Deleting a Feature ==
