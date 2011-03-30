@@ -400,3 +400,77 @@ function deleteFeature(){
 Here the HTTP method is `DELETE` and the parameters are passed in the url. As usual the response is displayed in the `<div>` under the button.
 
 == Getting the history of a feature ==
+The last command to discuss in this tutorial give us the chance to see all the versions that an specific feature have, which may be used for rolling back an annotation(by re-submitting).
+
+Go to the 'Getting the history of a Feature' section of the demo app, and submit the value `http://writeback/new`. The response will show the 3 versions that we have created in this tutorial:
+{{{
+<?xml version="1.0" standalone="no"?>
+<?xml-stylesheet href="xslt/features.xsl" type="text/xsl"?>
+<DASGFF>
+  <GFF href="http://localhost:8080/das/writeback/historical?feature=http://writeback/new">
+    <SEGMENT id="P05067" start="1" stop="770" version="7dd43312cd29a262acdc0517230bc5ca" label="Amyloid beta A4 protein">
+      <FEATURE id="http://writeback/new" label="DELETED">
+        <TYPE id="DELETED" />
+        <METHOD id="DELETED" />
+        <SCORE>0.0</SCORE>
+        <NOTE>USER=tester</NOTE>
+        <NOTE>DATE=2011-03-30 15:00:54.623</NOTE>
+        <NOTE>VERSION=3</NOTE>
+      </FEATURE>
+      <FEATURE id="http://writeback/new" label="testAnnotation">
+        <TYPE id="SO:0001072" cvId="SO:0001072">extramembrane_polypeptide_region</TYPE>
+        <METHOD id="ECO:0000053" cvId="ECO:0000053">computational combinatorial analysis</METHOD>
+        <START>50</START>
+        <END>100</END>
+        <NOTE>Test annotation</NOTE>
+        <NOTE>USER=tester</NOTE>
+        <NOTE>DATE=2011-03-30 12:17:17.344</NOTE>
+        <NOTE>VERSION=1</NOTE>
+      </FEATURE>
+      <FEATURE id="http://writeback/new" label="testAnnotation">
+        <TYPE id="SO:0001072" cvId="SO:0001072">extramembrane_polypeptide_region</TYPE>
+        <METHOD id="ECO:0000053" cvId="ECO:0000053">computational combinatorial analysis</METHOD>
+        <START>150</START>
+        <END>200</END>
+        <NOTE>Test annotation 2</NOTE>
+        <NOTE>USER=tester</NOTE>
+        <NOTE>DATE=2011-03-30 14:17:36.53</NOTE>
+        <NOTE>VERSION=2</NOTE>
+      </FEATURE>
+    </SEGMENT>
+  </GFF>
+</DASGFF>
+}}}
+
+The HTML form for this is quite similar to the one to show the features of a segment. 
+{{{
+<section id="history">
+	<h2>Getting the history of a Feature</h2>
+	<p>Feature ID:</p>
+	<input type="text" id="feature_h" />
+	<p>
+		<input type="button" onclick="displayHistory()" value="GET-HISTORY" />
+	</p>
+	<p><div id="result_hs"></div></p>
+</section>
+}}}
+The javascript method executed for this capability is `displayHistory()` which is also similar to the one for displaying the features of a segment: `displaySegment()`, with the difference that now the url to query includes the command historical and the parameter to pass is `feature`:
+{{{
+function displayHistory(){
+	$('#result_hs').html("");
+	var feat = $("#feature_h").val();
+	$.ajax({
+		type: "GET",
+		url: "das/writeback/historical",
+		dataType: 'text',
+		data: "feature="+feat,
+		success: function(msg){
+			var xml = msg.replace(/</g,"&lt;");
+			$('#result_hs').html("<pre class='brush: xml'>"+xml+"</pre>");
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			$('#result_hs').html("ERROR: "+errorThrown);
+		}
+	});
+}
+}}}
