@@ -192,7 +192,57 @@ If we use the same XML but click in the `UPDATE-FEATURE` the response of the ser
   </GFF>
 </DASGFF>
 }}}
-First notice that writeback responses will include all the other annotations that the server has for this segment. 
+First notice that writeback responses will include all the other annotations that the server has for this segment, and therefore in this segment we have 2 annotations, the one created and the one edited. 
+For the writeback server an update request means that the feature already exists, but this does not necessary means that have to exists in the writeback server; it could be in a different server. The id of he edited feature is `http://writeback/new` and its version is 1. We can edit this feature by using the id in the feature element of the XML. So use the next XML for a new update that will change the coordinates of the feature:
+{{{
+<?xml version="1.0" standalone="no"?>
+<DASGFF>
+ <GFF>
+  <SEGMENT id="P05067" start="1" stop="770" version="7dd43312cd29a262acdc0517230bc5ca" label="Amyloid beta A4 protein" >
+   <FEATURE id="http://writeback/new" label="testAnnotation" >
+    <TYPE id="SO:0001072" cvId="SO:0001072" >extramembrane_polypeptide_region</TYPE>
+    <METHOD id="ECO:0000053" cvId="ECO:0000053" >computational combinatorial analysis</METHOD>
+    <START>150</START>
+    <END>200</END>
+    <NOTE>Test annotation 2</NOTE>
+    <NOTE>USER=tester</NOTE><NOTE>PASSWORD=tester</NOTE>
+   </FEATURE>
+  </SEGMENT>
+ </GFF>
+</DASGFF>
+}}}
+The response still containing 2 features, because the last update created another version of a feature that is already in the server.
+{{{
+<?xml version="1.0" standalone="no"?>
+<?xml-stylesheet href="xslt/features.xsl" type="text/xsl"?>
+<DASGFF>
+  <GFF href="http://localhost:8080/das/writeback">
+    <SEGMENT id="P05067" start="1" stop="770" version="7dd43312cd29a262acdc0517230bc5ca" label="Amyloid beta A4 protein">
+      <FEATURE id="http://writeback/new" label="testAnnotation">
+        <TYPE id="SO:0001072" cvId="SO:0001072">extramembrane_polypeptide_region</TYPE>
+        <METHOD id="ECO:0000053" cvId="ECO:0000053">computational combinatorial analysis</METHOD>
+        <START>150</START>
+        <END>200</END>
+        <NOTE>Test annotation 2</NOTE>
+        <NOTE>USER=tester</NOTE>
+        <NOTE>DATE=2011-03-30 14:17:36.53</NOTE>
+        <NOTE>VERSION=2</NOTE>
+      </FEATURE>
+      <FEATURE id="http://writeback/0" label="testAnnotation">
+        <TYPE id="SO:0001072" cvId="SO:0001072">extramembrane_polypeptide_region</TYPE>
+        <METHOD id="ECO:0000053" cvId="ECO:0000053">computational combinatorial analysis</METHOD>
+        <START>50</START>
+        <END>100</END>
+        <NOTE>Test annotation</NOTE>
+        <NOTE>USER=tester</NOTE>
+        <NOTE>DATE=2011-03-30 11:42:56.325</NOTE>
+        <NOTE>VERSION=1</NOTE>
+      </FEATURE>
+    </SEGMENT>
+  </GFF>
+</DASGFF>
+}}}
+
 == Getting a segment ==
 
 == Deleting a Feature ==
