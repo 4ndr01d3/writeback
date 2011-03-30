@@ -266,6 +266,51 @@ function update(){
 Is important to highlight that this function is using the HTTP method PUT, and therefore the XML is the content of the request and is not wrapped in the traditional `parameter=value` way; that makes necessary to include the contentType of such content which here is `application/xml`. Besides that the method is similar to `create()`.
 
 == Getting a segment ==
+Here the writeback behaves as any other DAS source, the query methods are the same. So, for this example if we query by `P05067` the response will be the same than the previous XML, because the create, update and delete methods of the writeback will respond as the feature command after the changes have been executed.
+
+You can try to request a segment that haven't been registered in the writeback, for example `not_in_wb` and the response is following the DAS spec by reporting an Unknown Segement:
+{{{
+<?xml version="1.0" standalone="no"?>
+<?xml-stylesheet href="xslt/features.xsl" type="text/xsl"?>
+<DASGFF>
+  <GFF href="http://localhost:8080/das/writeback/features?segment=not_in_wb">
+    <UNKNOWNSEGMENT id="not_in_wb" />
+  </GFF>
+</DASGFF>
+
+The HTML form for this section is quite simple:
+{{{
+<section id="getting">
+	<h2>Getting Features By Segment</h2>
+	<p>Segment ID:</p>
+	<input type="text" id="segment" />
+	<p>
+		<input type="button" onclick="displaySegment()" value="GET-SEGMENT" />
+	</p>
+	<p><div id="result_gs"></div></p>
+</section>
+}}}
+And by clicking the `GET-SEGMENT` button the `displaySegment()` is invoked:
+{{{
+function displaySegment(){
+	$('#result_gs').html("");
+	var seg = $("#segment").val();
+	$.ajax({
+		type: "GET",
+		url: "das/writeback/features",
+		dataType: 'text',
+		data: "segment="+seg,
+		success: function(msg){
+			var xml = msg.replace(/</g,"&lt;");
+			$('#result_gs').html("<pre class='brush: xml'>"+xml+"</pre>");
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			$('#result_gs').html("ERROR: "+errorThrown);
+		}
+	});
+}
+}}}
+Nothing interesting in this method that we haven't mention in the previous ones.
 
 == Deleting a Feature ==
 
